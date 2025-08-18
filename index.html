@@ -3,107 +3,43 @@
 <head>
   <meta charset="UTF-8">
   <title>Multi-Nutrient Fertilizer Calculator</title>
-  <style>
-    body { font-family: Arial; padding: 20px; max-width: 700px; margin: auto; }
-    label, select, input { margin: 10px 0; display: block; width: 100%; }
-    button { margin-top: 20px; padding: 10px; }
-    h2 { margin-top: 30px; }
-    label, select, input, button {
-  font-size: 1.2em;
-  padding: 10px;
-  margin: 10px 0;
-  width: 100%;
-  box-sizing: border-box;
-}
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Fertilizer Rate Calculator</h1>
+  <div class="container">
+    <h1>Fertilizer Rate Calculator</h1>
 
-  <label for="nutrient">Select Nutrient:</label>
-  <select id="nutrient" onchange="updateProducts()">
-    <option value="N">Nitrogen (N)</option>
-    <option value="P2O5">Phosphorus (P₂O₅)</option>
-    <option value="K2O">Potassium (K₂O)</option>
-  </select>
+    <div class="form-group">
+      <label for="nutrient">Select Nutrient:</label>
+      <select id="nutrient" onchange="updateProducts()">
+        <option value="N">Nitrogen (N)</option>
+        <option value="P2O5">Phosphorus (P₂O₅)</option>
+        <option value="K2O">Potassium (K₂O)</option>
+      </select>
+    </div>
 
-  <label for="product">Choose Fertilizer Product:</label>
-  <select id="product">
-    <!-- Populated dynamically -->
-  </select>
+    <div class="form-group">
+      <label for="product">Choose Fertilizer Product:</label>
+      <select id="product"></select>
+    </div>
 
-  <label for="pureRate">Desired Rate per Acre in Pounds:</label>
-  <input type="number" id="pureRate" placeholder="e.g. 100">
+    <div class="form-group">
+      <label for="pureRate">Desired Rate per Acre in Pounds:</label>
+      <input type="number" id="pureRate" placeholder="e.g. 100">
+    </div>
 
-  <label for="acres">Number of Acres:</label>
-  <input type="number" id="acres" placeholder="e.g. 50">
+    <div class="form-group">
+      <label for="acres">Number of Acres:</label>
+      <input type="number" id="acres" placeholder="e.g. 50">
+    </div>
 
-  <button onclick="calculate()">Calculate</button>
+    <div class="form-group">
+      <button onclick="calculate()">Calculate</button>
+    </div>
 
-  <h2 id="result"></h2>
-
-  <script>
-    const fertilizerData = {
-      N: {
-        "Urea (46-0-0)": 0.46,
-        "Ammonium Nitrate (34-0-0)": 0.34,
-        "UAN 28 (28-0-0)": 0.28,
-        "UAN 32 (32-0-0)": 0.32
-      },
-      P2O5: {
-        "DAP (18-46-0)": 0.46,
-        "MAP (11-52-0)": 0.52
-      },
-      K2O: {
-        "Potash (0-0-60)": 0.60,
-        "Sulfate of Potash (0-0-50)": 0.50
-      }
-    };
-
-    function updateProducts() {
-      const nutrient = document.getElementById('nutrient').value;
-      const productSelect = document.getElementById('product');
-      productSelect.innerHTML = "";
-
-      Object.keys(fertilizerData[nutrient]).forEach(product => {
-        const option = document.createElement('option');
-        option.value = product;
-        option.text = product;
-        productSelect.appendChild(option);
-      });
-    }
-
-    function calculate() {
-  const nutrient = document.getElementById('nutrient').value;
-  const product = document.getElementById('product').value;
-  const pureRate = parseFloat(document.getElementById('pureRate').value);
-  const acres = parseFloat(document.getElementById('acres').value);
-  const percent = fertilizerData[nutrient][product];
-
-  if (isNaN(pureRate) || isNaN(acres) || pureRate <= 0 || acres <= 0) {
-    document.getElementById('result').innerText = "Please enter valid numbers for rate and acres.";
-    return;
-  }
-
-  const productPerAcre = pureRate / percent;
-  const totalProduct = productPerAcre * acres;
-
-  let resultText = `To apply ${pureRate} lbs of ${nutrient} per acre using ${product}, you need:\n`;
-
-  if (product.includes("UAN")) {
-    const totalGallons = totalProduct / 11.06;
-    const gallonsPerAcre = productPerAcre / 11.06;
-    resultText += `→ ${gallonsPerAcre.toFixed(2)} gallons/acre\n→ ${totalGallons.toFixed(2)} gallons total for ${acres} acres.`;
-  } else {
-    resultText += `→ ${productPerAcre.toFixed(2)} lbs/acre\n→ ${totalProduct.toFixed(2)} lbs total for ${acres} acres.`;
-  }
-
-  document.getElementById('result').innerText = resultText;
-}
-
-
-    // Initialize product list on page load
-    updateProducts();
-  </script>
+    <div class="result-group">
+      <h2 id="result"></h2>
+    </div>
+  </div>
 </body>
 </html>
