@@ -3,57 +3,58 @@ body {
   font-family: 'Segoe UI', sans-serif;
   background: #f4f6f8;
   margin: 0;
-  padding: 40px;
+  padding: 100px;
   display: flex;
   justify-content: center;
   align-items: flex-start;
   min-height: 100vh;
+  font-size: 26px; /* Huge base font */
 }
 
 .container {
   background: white;
-  padding: 40px;
-  border-radius: 16px;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.1);
-  max-width: 600px;
+  padding: 80px;
+  border-radius: 30px;
+  box-shadow: 0 12px 28px rgba(0,0,0,0.1);
+  max-width: 900px;
   width: 100%;
   box-sizing: border-box;
 }
 
 /* Typography */
 h1 {
-  font-size: 2em;
-  margin-bottom: 40px;
+  font-size: 2.6em;
+  margin-bottom: 60px;
   text-align: center;
 }
 
 label {
-  font-weight: 600;
-  margin-bottom: 12px;
+  font-weight: 700;
+  margin-bottom: 20px;
   display: block;
-  font-size: 1.2em;
+  font-size: 1.8em;
 }
 
 /* Form elements */
 select, input {
   width: 100%;
-  padding: 18px;
-  font-size: 1.2em;
-  margin-top: 8px;
-  margin-bottom: 24px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  padding: 36px;
+  font-size: 1.8em;
+  margin-top: 12px;
+  margin-bottom: 40px;
+  border: 2px solid #ccc;
+  border-radius: 16px;
   box-sizing: border-box;
 }
 
 button {
   width: 100%;
-  padding: 20px;
-  font-size: 1.3em;
+  padding: 42px;
+  font-size: 2em;
   background-color: #0078d4;
   color: white;
   border: none;
-  border-radius: 10px;
+  border-radius: 16px;
   cursor: pointer;
   font-weight: bold;
   transition: background-color 0.3s ease;
@@ -65,42 +66,47 @@ button:hover {
 
 /* Result */
 .result-group {
-  margin-top: 40px;
+  margin-top: 60px;
   text-align: center;
 }
 
 #result {
   white-space: pre-line;
-  font-size: 1.2em;
+  font-size: 1.8em;
   color: #333;
 }
 
 /* Mobile adjustments */
 @media (max-width: 600px) {
   body {
-    padding: 20px;
+    padding: 50px;
+    font-size: 24px;
   }
 
   .container {
-    padding: 30px;
-    border-radius: 12px;
+    padding: 60px;
+    border-radius: 24px;
   }
 
   h1 {
-    font-size: 1.8em;
+    font-size: 2.4em;
   }
 
-  label, select, input, button {
-    font-size: 1.3em;
-    padding: 20px;
+  label {
+    font-size: 2em;
+  }
+
+  select, input {
+    font-size: 2em;
+    padding: 40px;
   }
 
   button {
-    font-size: 1.4em;
-    padding: 24px;
+    font-size: 2.2em;
+    padding: 48px;
   }
 
   #result {
-    font-size: 1.3em;
+    font-size: 2em;
   }
 }
