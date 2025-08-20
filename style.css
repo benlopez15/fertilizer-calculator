@@ -127,6 +127,12 @@ html {
   }
 }
 
+@media (min-width: 1024px) {
+  .container {
+    padding: 3rem 4rem;
+  }
+}
+
 input, select {
   font-size: 1rem;
   touch-action: manipulation;
@@ -176,10 +182,11 @@ input, select {
 
 .container {
   width: 100%;
-  max-width: 960px;
-  margin: auto;
+  max-width: 1000px; /* bump this up from 600px or 960px */
+  margin: 0 auto;
   padding: 2rem;
 }
+
 
 
 
