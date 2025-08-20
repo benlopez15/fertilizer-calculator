@@ -181,10 +181,10 @@ input, select {
 }
 
 .container {
-  width: 100%;
-  max-width: 1000px; /* bump this up from 600px or 960px */
+  width: 90%;
+  max-width: 900px; /* bump this up from 600px or 960px */
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1rem;
 }
 
 
