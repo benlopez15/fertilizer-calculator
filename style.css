@@ -1,112 +1,185 @@
-/* Base layout */
+/* Base styles – Mobile-first approach */
 body {
-  font-family: 'Segoe UI', sans-serif;
-  background: #f4f6f8;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f6f8;
   margin: 0;
-  padding: 100px;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  min-height: 100vh;
-  font-size: 26px; /* Huge base font */
+  padding: 1rem;
 }
 
 .container {
+  max-width: 100%;
+  margin: auto;
   background: white;
-  padding: 80px;
-  border-radius: 30px;
-  box-shadow: 0 12px 28px rgba(0,0,0,0.1);
-  max-width: 900px;
-  width: 100%;
-  box-sizing: border-box;
+  padding: 2rem;
+  border-radius: 0.625rem;
+  box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.1);
 }
 
-/* Typography */
 h1 {
-  font-size: 2.6em;
-  margin-bottom: 60px;
   text-align: center;
+  color: #2c3e50;
+  font-size: 1.75rem;
+}
+
+.form-group {
+  margin-bottom: 1.25rem;
 }
 
 label {
-  font-weight: 700;
-  margin-bottom: 20px;
   display: block;
-  font-size: 1.8em;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  font-size: 1rem;
 }
 
-/* Form elements */
-select, input {
+input,
+select {
   width: 100%;
-  padding: 36px;
-  font-size: 1.8em;
-  margin-top: 12px;
-  margin-bottom: 40px;
-  border: 2px solid #ccc;
-  border-radius: 16px;
-  box-sizing: border-box;
+  padding: 0.625rem;
+  border: 1px solid #ccc;
+  border-radius: 0.3125rem;
+  font-size: 1rem;
 }
 
 button {
-  width: 100%;
-  padding: 42px;
-  font-size: 2em;
-  background-color: #0078d4;
+  background: linear-gradient(to right, rgb(0,157,255),rgb(255,0,255));
   color: white;
+  padding: 0.75rem 1.25rem;
   border: none;
-  border-radius: 16px;
+  border-radius: 0.3125rem;
   cursor: pointer;
-  font-weight: bold;
+  width: 100%;
+  font-size: 1.8rem;
   transition: background-color 0.3s ease;
 }
 
 button:hover {
-  background-color: #005ea2;
+  background: lightsteelblue;
+  color: black;
 }
 
-/* Result */
 .result-group {
-  margin-top: 60px;
-  text-align: center;
-}
-
-#result {
+  margin-top: 2rem;
+  background-color: #ecf0f1;
+  padding: 1.25rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
   white-space: pre-line;
-  font-size: 1.8em;
-  color: #333;
 }
 
-/* Mobile adjustments */
-@media (max-width: 600px) {
-  body {
-    padding: 50px;
-    font-size: 24px;
-  }
-
+/* Desktop styles */
+@media (min-width: 768px) {
   .container {
-    padding: 60px;
-    border-radius: 24px;
+    max-width: 600px;
+    padding: 2.5rem;
   }
 
   h1 {
-    font-size: 2.4em;
-  }
-
-  label {
-    font-size: 2em;
-  }
-
-  select, input {
-    font-size: 2em;
-    padding: 40px;
+    font-size: 2rem;
   }
 
   button {
-    font-size: 2.2em;
-    padding: 48px;
-  }
-
-  #result {
-    font-size: 2em;
+    width: auto;
+    display: inline-block;
   }
 }
+
+html {
+  font-size: 16px;
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 15px;
+  }
+}
+
+@media (min-width: 1024px) {
+  html {
+    font-size: 17px;
+  }
+}
+
+@media (min-width: 768px) {
+  .image-background h1 {
+    top: 0;
+    left: 0;
+    transform: none;
+    width: 100%;
+    max-width: none;
+    font-size: 2rem;
+    padding: 1rem 2rem;
+    background-color: rgba(255, 255, 255, 0.6);
+    border-radius: 0 0 0.5rem 0.5rem;
+    white-space: nowrap;
+    text-align: center;
+  }
+}
+
+@media (min-width: 768px) {
+  .image-background {
+    max-width: 600px;
+    margin: 0 auto 1rem auto; /* centers it and adds bottom spacing */
+    height: 300px; /* adjust as needed */
+    border-radius: 0.625rem;
+    overflow: hidden;
+  }
+}
+
+input, select {
+  font-size: 1rem;
+  touch-action: manipulation;
+}
+
+/* profile section */
+
+#profile 
+.section__pic-container {
+  display: flex;
+}
+
+.image-background {
+  width: 100%;
+  aspect-ratio: 16 / 9; /* or 4 / 3 depending on your image */
+  overflow: hidden;
+  margin-bottom: 1rem;
+  border-radius: 0.625rem;
+}
+
+
+
+.image-background img {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Shows the whole image without cropping */
+  display: block;
+  margin: 0 auto;
+  opacity: 1;
+  z-index: 0;
+}
+
+.image-background h1 {
+  position: absolute;
+  z-index: 1;
+  text-align: center;
+  color: black;
+  font-size: 1.5rem;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 0.4rem 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+  max-width: 90%;
+  width: fit-content;
+  white-space: normal;
+  word-wrap: break-word;
+}
+
+.container {
+  padding-top: 0.25rem;
+}
+
+
+
+
+

@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Multi-Nutrient Fertilizer Calculator</title>
+  <title>Fertilizer Calculator</title>
   <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <script>
   const fertilizerData = {
@@ -51,7 +52,7 @@
     const productPerAcre = pureRate / percent;
     const totalProduct = productPerAcre * acres;
 
-    let resultText = `To apply ${pureRate} lbs of ${nutrient} per acre using ${product}, you need:\n`;
+    let resultText = `To apply ${pureRate} lbs of ${nutrient} per acre using ${product}, you need to apply:\n`;
 
     if (product.includes("UAN")) {
       const totalGallons = totalProduct / 11.06;
@@ -63,15 +64,18 @@
 
     document.getElementById('result').innerText = resultText;
   }
-
   // Initialize product list on page load
   window.onload = updateProducts;
 </script>
 
 <body>
   <div class="container">
+    <div class="container">
     <h1>Fertilizer Rate Calculator</h1>
-
+    <div class="image-background">
+      <img src="./assets/profile-pic.png" alt="dead-head">
+    </div>
+  
     <div class="form-group">
       <label for="nutrient">Select Nutrient:</label>
       <select id="nutrient" onchange="updateProducts()">
