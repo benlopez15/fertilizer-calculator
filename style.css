@@ -141,10 +141,8 @@ input, select {
 
 .image-background {
   width: 100%;
-  aspect-ratio: 16 / 9; /* or 4 / 3 depending on your image */
-  overflow: hidden;
-  margin-bottom: 1rem;
-  border-radius: 0.625rem;
+  max-width: 960px;
+  margin: 0 auto 1rem auto;
 }
 
 
@@ -177,8 +175,13 @@ input, select {
 }
 
 .container {
-  padding-top: 0.25rem;
+  width: 100%;
+  max-width: 960px;
+  margin: auto;
+  padding: 2rem;
 }
+
+
 
 
 
