@@ -68,11 +68,12 @@ button:hover {
 }
 
 /* Desktop styles */
-@media (min-width: 768px) {
-  .container {
-    max-width: 600px;
-    padding: 2.5rem;
-  }
+.container {
+  width: 100%;
+  max-width: 960px;
+  margin: auto;
+}
+
 
   h1 {
     font-size: 2rem;
@@ -82,7 +83,7 @@ button:hover {
     width: auto;
     display: inline-block;
   }
-}
+
 
 html {
   font-size: 16px;
