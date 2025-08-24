@@ -1,80 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Fertilizer Calculator</title>
-  <link rel="stylesheet" href="style.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
-<script>
-  const fertilizerData = {
-    N: {
-      "Urea (46-0-0)": 0.46,
-      "Ammonium Nitrate (34-0-0)": 0.34,
-      "UAN (28-0-0)": 0.28,
-      "UAN (32-0-0)": 0.32
-    },
-    P2O5: {
-      "DAP (18-46-0)": 0.46,
-      "MAP (11-52-0)": 0.52
-    },
-    K2O: {
-      "Potash (0-0-60)": 0.60,
-      "Sulfate of Potash (0-0-50)": 0.50
-    }
-  };
-
-  function updateProducts() {
-    const nutrient = document.getElementById('nutrient').value;
-    const productSelect = document.getElementById('product');
-    productSelect.innerHTML = "";
-
-    Object.keys(fertilizerData[nutrient]).forEach(product => {
-      const option = document.createElement('option');
-      option.value = product;
-      option.text = product;
-      productSelect.appendChild(option);
-    });
-  }
-
-  function calculate() {
-    const nutrient = document.getElementById('nutrient').value;
-    const product = document.getElementById('product').value;
-    const pureRate = parseFloat(document.getElementById('pureRate').value);
-    const acres = parseFloat(document.getElementById('acres').value);
-    const percent = fertilizerData[nutrient][product];
-
-    if (isNaN(pureRate) || isNaN(acres) || pureRate <= 0 || acres <= 0) {
-      document.getElementById('result').innerText = "Please enter valid numbers for rate and acres.";
-      return;
-    }
-
-    const productPerAcre = pureRate / percent;
-    const totalProduct = productPerAcre * acres;
-    
-    let resultText = `To apply ${pureRate} lbs of ${nutrient} per acre using ${product}, you need to apply:\n`;
-
-    if (product.includes("UAN")) {
-  const totalGallons = totalProduct / 11.06;
-  const gallonsPerAcre = productPerAcre / 11.06;
-  resultText += `<li> <u>${gallonsPerAcre.toFixed(2)} gallons/acre</u></li><br> <li><u>${totalGallons.toFixed(2)} gallons total for ${acres} acres.</u></li>`;
-} else {
-  resultText += `<li> <u>${productPerAcre.toFixed(2)} lbs/acre</u></li><br> <li><u>${totalProduct.toFixed(2)} lbs total for ${acres} acres.</u></li>`;
-}
-
-    document.getElementById('result').innerHTML = resultText;
-  }
-  // Initialize product list on page load
-  window.onload = updateProducts;
-</script>
-
 <body>
   <div class="container">
     <h1>Fertilizer Rate Calculator</h1>
+
     <div class="image-background">
-      <img src="./assets/profile-pic.png" alt="dead-head">
+      <img src="./assets/profile-pic.png" alt="dead-head" />
     </div>
-  
+
     <div class="form-group">
       <label for="nutrient">Select Nutrient:</label>
       <select id="nutrient" onchange="updateProducts()">
@@ -91,12 +30,12 @@
 
     <div class="form-group">
       <label for="pureRate">Desired Rate per Acre in Pounds:</label>
-      <input type="number" id="pureRate" placeholder="e.g. 100">
+      <input type="number" id="pureRate" placeholder="e.g. 100" />
     </div>
 
     <div class="form-group">
       <label for="acres">Number of Acres:</label>
-      <input type="number" id="acres" placeholder="e.g. 50">
+      <input type="number" id="acres" placeholder="e.g. 50" />
     </div>
 
     <div class="form-group">
@@ -106,6 +45,23 @@
     <div class="result-group">
       <h2 id="result"></h2>
     </div>
+    <div class="form-group">
+  <label for="spreaderWidth">Spreader Width (feet):</label>
+  <input type="number" id="spreaderWidth" placeholder="e.g. 10" />
+  <label for="nozzles">Number of Nozzles:</label>
+<input type="number" id="nozzles" min="1" placeholder="e.g. 6">
+
+</div>
+
+<div class="form-group">
+  <button onclick="generateCatchTable()">Generate Catch Table</button>
+</div>
+
+<div class="result-group">
+  <h2>Expected Catch in 60 Seconds</h2>
+  <table id="catchTable"></table>
+</div>
   </div>
+  <script src="script.js"></script>
 </body>
 </html>

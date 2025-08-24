@@ -1,4 +1,4 @@
-/* Base styles – Mobile-first approach */
+/* Base styles */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #f4f6f8;
@@ -7,26 +7,27 @@ body {
 }
 
 .container {
-  max-width: 99%;
+  max-width: 900px;
   margin: auto;
   background: white;
   padding: 2rem;
-  border-radius: 0.625rem;
-  box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 h1 {
   text-align: center;
   color: #2c3e50;
-  font-size: 1.75rem;
+  font-size: 2rem;
 }
 
 .form-group {
   margin-bottom: 1.25rem;
+  display: flex;
+  flex-direction: column;
 }
 
 label {
-  display: flex;
   margin-bottom: 0.5rem;
   font-weight: bold;
   font-size: 1rem;
@@ -34,11 +35,11 @@ label {
 
 input,
 select {
-  width: 95%;
   padding: 0.625rem;
   border: 1px solid #ccc;
-  border-radius: 0.3125rem;
+  border-radius: 5px;
   font-size: 1rem;
+  width: 100%;
 }
 
 button {
@@ -46,10 +47,9 @@ button {
   color: white;
   padding: 0.75rem 1.25rem;
   border: none;
-  border-radius: 0.3125rem;
+  border-radius: 5px;
   cursor: pointer;
-  width: 100%;
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   transition: all 0.3s ease;
   position: relative;
   z-index: 1;
@@ -72,41 +72,37 @@ button:hover::before {
 
 button:hover {
   color: transparent;
-  background-image: linear-gradient(to right, rgb(0,157,255), rgb(255,0,255));
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-
-
 .result-group {
   margin-top: 2rem;
   background-color: #ecf0f1;
   padding: 1.25rem;
-  border-radius: 0.5rem;
+  border-radius: 8px;
   font-size: 1rem;
   white-space: pre-line;
 }
 
-/* Desktop styles */
-.container {
-  width: 100%;
-  max-width: 960px;
-  margin: auto;
+/* Image section */
+.image-background {
+  max-width: 600px;
+  margin: 0 auto 1rem auto;
+  height: auto;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
+.image-background img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
 
-  h1 {
-    font-size: 2rem;
-  }
-
-  button {
-    width: auto;
-    display: inline-block;
-  }
-
-
+/* Responsive typography */
 html {
   font-size: 16px;
 }
@@ -120,116 +116,21 @@ html {
 @media (min-width: 1024px) {
   html {
     font-size: 21px;
-  }
+}
 }
 
-@media (min-width: 768px) {
-  .image-background h1 {
-    top: 0;
-    left: 0;
-    transform: none;
-    width: 100%;
-    max-width: none;
-    font-size: 2rem;
-    padding: 1rem 2rem;
-    background-color: rgba(255, 255, 255, 0.6);
-    border-radius: 0 0 0.5rem 0.5rem;
-    white-space: nowrap;
-    text-align: center;
-  }
-}
-
-@media (min-width: 768px) {
-  .image-background {
-    max-width: 600px;
-    margin: 0 auto 1rem auto; /* centers it and adds bottom spacing */
-    height: 300px; /* adjust as needed */
-    border-radius: 0.625rem;
-    overflow: hidden;
-  }
-}
-
-@media (min-width: 1024px) {
-  .container {
-    padding: 3rem 4rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .form-group {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-
-  .form-group label {
-    flex: 1;
-  }
-
-  .form-group input,
-  .form-group select {
-    flex: 2;
-  }
-}
-
-input, select {
-  font-size: 1rem;
-  touch-action: manipulation;
-}
-
-/* profile section */
-
-#profile 
-.section__pic-container {
-  display: flex;
-}
-
-.image-background {
+table {
   width: 100%;
-  max-width: 960px;
-  margin: 0 auto 1rem auto;
+  border-collapse: collapse;
+  margin-top: 1rem;
 }
 
-
-
-.image-background img {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  object-fit: contain; /* Shows the whole image without cropping */
-  display: block;
-  margin: 0 auto;
-  opacity: 1;
-  z-index: 0;
-}
-
-.image-background h1 {
-  position: absolute;
-  z-index: 1;
+th, td {
+  border: 1px solid #ccc;
+  padding: 0.75rem;
   text-align: center;
-  color: black;
-  font-size: 1.5rem;
-  background-color: rgba(255, 255, 255, 0.9);
-  padding: 0.4rem 1rem;
-  border-radius: 0.5rem;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
-  max-width: 90%;
-  width: fit-content;
-  white-space: normal;
-  word-wrap: break-word;
 }
 
-.container {
-  width: 90%;
-  max-width: 900px; /* bump this up from 600px or 960px */
-  margin: 0 auto;
-  padding: 1rem;
+th {
+  background-color: #e0e0e0;
 }
-
-
-
-
-
-
-
-
