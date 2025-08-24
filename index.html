@@ -11,8 +11,8 @@
     N: {
       "Urea (46-0-0)": 0.46,
       "Ammonium Nitrate (34-0-0)": 0.34,
-      "UAN 28 (28-0-0)": 0.28,
-      "UAN 32 (32-0-0)": 0.32
+      "UAN (28-0-0)": 0.28,
+      "UAN (32-0-0)": 0.32
     },
     P2O5: {
       "DAP (18-46-0)": 0.46,
@@ -51,18 +51,18 @@
 
     const productPerAcre = pureRate / percent;
     const totalProduct = productPerAcre * acres;
-
+    
     let resultText = `To apply ${pureRate} lbs of ${nutrient} per acre using ${product}, you need to apply:\n`;
 
     if (product.includes("UAN")) {
-      const totalGallons = totalProduct / 11.06;
-      const gallonsPerAcre = productPerAcre / 11.06;
-      resultText += `→ ${gallonsPerAcre.toFixed(2)} gallons/acre\n→ ${totalGallons.toFixed(2)} gallons total for ${acres} acres.`;
-    } else {
-      resultText += `→ ${productPerAcre.toFixed(2)} lbs/acre\n→ ${totalProduct.toFixed(2)} lbs total for ${acres} acres.`;
-    }
+  const totalGallons = totalProduct / 11.06;
+  const gallonsPerAcre = productPerAcre / 11.06;
+  resultText += `<li> <u>${gallonsPerAcre.toFixed(2)} gallons/acre</u></li><br> <li><u>${totalGallons.toFixed(2)} gallons total for ${acres} acres.</u></li>`;
+} else {
+  resultText += `<li> <u>${productPerAcre.toFixed(2)} lbs/acre</u></li><br> <li><u>${totalProduct.toFixed(2)} lbs total for ${acres} acres.</u></li>`;
+}
 
-    document.getElementById('result').innerText = resultText;
+    document.getElementById('result').innerHTML = resultText;
   }
   // Initialize product list on page load
   window.onload = updateProducts;

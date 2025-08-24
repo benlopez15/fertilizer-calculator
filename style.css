@@ -42,7 +42,7 @@ select {
 }
 
 button {
-  background: linear-gradient(to right, rgb(0,157,255),rgb(255,0,255));
+  background: linear-gradient(to right, rgb(0,157,255), rgb(255,0,255));
   color: white;
   padding: 0.75rem 1.25rem;
   border: none;
@@ -50,13 +50,35 @@ button {
   cursor: pointer;
   width: 100%;
   font-size: 1.8rem;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+
+button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: lightsteelblue;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+button:hover::before {
+  opacity: 0.5;
 }
 
 button:hover {
-  background: lightsteelblue;
-  color: black;
+  color: transparent;
+  background-image: linear-gradient(to right, rgb(0,157,255), rgb(255,0,255));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
+
+
 
 .result-group {
   margin-top: 2rem;
