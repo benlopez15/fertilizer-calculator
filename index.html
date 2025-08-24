@@ -45,12 +45,15 @@
     <div class="result-group">
       <h2 id="result"></h2>
     </div>
-    <div class="form-group">
-  <label for="spreaderWidth">Spreader Width (feet):</label>
+    <h2 style="margin-top: 2rem;">Equipment Calibration</h2>
+<div class="form-group">
+  <label for="spreaderWidth">Application Width (feet):</label>
   <input type="number" id="spreaderWidth" placeholder="e.g. 10" />
-  <label for="nozzles">Number of Nozzles:</label>
-<input type="number" id="nozzles" min="1" placeholder="e.g. 6">
 
+  <div id="nozzleGroup" style="display: none;">
+    <label for="nozzles">Number of Nozzles:</label>
+    <input type="number" id="nozzles" min="1" placeholder="e.g. 6" />
+  </div>
 </div>
 
 <div class="form-group">

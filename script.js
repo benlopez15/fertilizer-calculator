@@ -125,9 +125,8 @@ function generateCatchTable() {
 
 function updateProducts() {
   const nutrient = document.getElementById('nutrient').value;
-  console.log("Selected nutrient:", nutrient); // ✅ Debug line
-
   const productSelect = document.getElementById('product');
+  const nozzleGroup = document.getElementById('nozzleGroup');
   productSelect.innerHTML = "";
 
   const defaultOption = document.createElement('option');
@@ -148,6 +147,19 @@ function updateProducts() {
     option.textContent = product;
     productSelect.appendChild(option);
   });
+
+  // Listen for product change to toggle nozzle input
+  productSelect.onchange = () => {
+    const selectedProduct = productSelect.value;
+    if (selectedProduct.includes("UAN")) {
+      nozzleGroup.style.display = "block";
+    } else {
+      nozzleGroup.style.display = "none";
+    }
+  };
+
+  // Hide nozzle input initially
+  nozzleGroup.style.display = "none";
 }
 
 
