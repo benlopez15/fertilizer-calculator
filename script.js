@@ -98,7 +98,7 @@ function generateCatchTable() {
     table.innerHTML = "<tr><th>Speed (mph)</th><th>Catch (lbs in 60 sec)</th></tr>";
   }
 
-  for (let speed = 1; speed <= 15; speed++) {
+  for (let speed = 1.0; speed <= 10.0; speed += 0.5) {
     const feetPerMinute = speed * 88;
     const areaPerMinute = spreaderWidth * feetPerMinute;
     const catchLbs = (lbsPerAcre * areaPerMinute) / 43560;
