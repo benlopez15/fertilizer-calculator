@@ -16,8 +16,10 @@ const fertilizerData = {
 };
 
 function updateProducts() {
-  const nutrient = document.getElementById('nutrient').value;
+  const nutrientInput = document.getElementById('nutrient').value;
+  const nutrient = nutrientInput === "P" ? "P2O5" : nutrientInput === "K" ? "K2O" : nutrientInput;
   const productSelect = document.getElementById('product');
+  const nozzleGroup = document.getElementById('nozzleGroup');
   productSelect.innerHTML = "";
 
   const defaultOption = document.createElement('option');
@@ -26,33 +28,59 @@ function updateProducts() {
   defaultOption.selected = true;
   productSelect.appendChild(defaultOption);
 
-  Object.keys(fertilizerData[nutrient]).forEach(product => {
+  const products = fertilizerData[nutrient];
+  if (!products) {
+    console.error("No products found for nutrient:", nutrient);
+    return;
+  }
+
+  Object.keys(products).forEach(product => {
     const option = document.createElement('option');
     option.value = product;
     option.textContent = product;
     productSelect.appendChild(option);
   });
+
+  productSelect.onchange = () => {
+    const selectedProduct = productSelect.value;
+    nozzleGroup.style.display = selectedProduct.includes("UAN") ? "block" : "none";
+  };
+
+  nozzleGroup.style.display = "none";
 }
 
 function calculate() {
-  const nutrient = document.getElementById('nutrient').value;
+  let nutrientInput = document.getElementById('nutrient').value;
   const product = document.getElementById('product').value;
-  const pureRate = parseFloat(document.getElementById('pureRate').value);
+  let pureRate = parseFloat(document.getElementById('pureRate').value);
   const acres = parseFloat(document.getElementById('acres').value);
-  const percent = fertilizerData[nutrient][product];
-
   const resultEl = document.getElementById('result');
 
-  if (isNaN(pureRate) || isNaN(acres) || pureRate <= 0 || acres <= 0) {
+  if (isNaN(pureRate) || isNaN(acres) || pureRate <= 0 || acres <= 0 || !product) {
     resultEl.textContent = "Please enter valid numbers for rate and acres.";
     return;
   }
 
-  const productPerAcre = pureRate / percent;
+  let convertedRate = pureRate;
+  let displayNutrient = nutrientInput;
+  let conversionNote = "";
+
+  if (nutrientInput === "P") {
+    convertedRate *= 2.29;
+    nutrientInput = "P2O5";
+    conversionNote = `(Converted to ${convertedRate.toFixed(2)} lbs of P₂O₅)`;
+  } else if (nutrientInput === "K") {
+    convertedRate *= 1.20;
+    nutrientInput = "K2O";
+    conversionNote = `(Converted to ${convertedRate.toFixed(2)} lbs of K₂O)`;
+  }
+
+  const percent = fertilizerData[nutrientInput][product];
+  const productPerAcre = convertedRate / percent;
   const totalProduct = productPerAcre * acres;
 
-  let resultText = `To apply ${pureRate} lbs of ${nutrient} per acre using ${product}, you need to apply:<br>`;
-  
+  let resultText = `To apply ${pureRate} lbs of elemental ${displayNutrient} per acre using ${product}, you need to apply:<br>`;
+
   if (product.includes("UAN")) {
     const gallonsPerAcre = productPerAcre / 11.06;
     const totalGallons = totalProduct / 11.06;
@@ -61,16 +89,32 @@ function calculate() {
     resultText += `• ${productPerAcre.toFixed(2)} lbs/acre<br>• ${totalProduct.toFixed(2)} lbs total for ${acres} acres.`;
   }
 
+  // Add conversion note at the bottom only for P and K
+  if (conversionNote) {
+    resultText += `<br><br>${conversionNote}`;
+  }
+
   resultEl.innerHTML = resultText;
 }
 
+
 function generateCatchTable() {
-  const spreaderWidth = parseFloat(document.getElementById('spreaderWidth').value);
-  const nutrient = document.getElementById('nutrient').value;
+  let nutrientInput = document.getElementById('nutrient').value;
   const product = document.getElementById('product').value;
-  const pureRate = parseFloat(document.getElementById('pureRate').value);
+  let pureRate = parseFloat(document.getElementById('pureRate').value);
+  const spreaderWidth = parseFloat(document.getElementById('spreaderWidth').value);
   const nozzles = parseInt(document.getElementById('nozzles').value);
-  const percent = fertilizerData[nutrient][product];
+  const table = document.getElementById('catchTable');
+
+  if (nutrientInput === "P") {
+    pureRate *= 2.29;
+    nutrientInput = "P2O5";
+  } else if (nutrientInput === "K") {
+    pureRate *= 1.20;
+    nutrientInput = "K2O";
+  }
+
+  const percent = fertilizerData[nutrientInput][product];
 
   if (
     isNaN(spreaderWidth) || spreaderWidth <= 0 ||
@@ -83,9 +127,7 @@ function generateCatchTable() {
   }
 
   const lbsPerAcre = pureRate / percent;
-  const table = document.getElementById('catchTable');
 
-  // Set table headers
   if (product.includes("UAN")) {
     table.innerHTML = `
       <tr>
@@ -122,45 +164,5 @@ function generateCatchTable() {
     table.appendChild(row);
   }
 }
-
-function updateProducts() {
-  const nutrient = document.getElementById('nutrient').value;
-  const productSelect = document.getElementById('product');
-  const nozzleGroup = document.getElementById('nozzleGroup');
-  productSelect.innerHTML = "";
-
-  const defaultOption = document.createElement('option');
-  defaultOption.textContent = "-- Select Product --";
-  defaultOption.disabled = true;
-  defaultOption.selected = true;
-  productSelect.appendChild(defaultOption);
-
-  const products = fertilizerData[nutrient];
-  if (!products) {
-    console.error("No products found for nutrient:", nutrient);
-    return;
-  }
-
-  Object.keys(products).forEach(product => {
-    const option = document.createElement('option');
-    option.value = product;
-    option.textContent = product;
-    productSelect.appendChild(option);
-  });
-
-  // Listen for product change to toggle nozzle input
-  productSelect.onchange = () => {
-    const selectedProduct = productSelect.value;
-    if (selectedProduct.includes("UAN")) {
-      nozzleGroup.style.display = "block";
-    } else {
-      nozzleGroup.style.display = "none";
-    }
-  };
-
-  // Hide nozzle input initially
-  nozzleGroup.style.display = "none";
-}
-
 
 document.addEventListener("DOMContentLoaded", updateProducts);
