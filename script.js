@@ -15,154 +15,137 @@ const fertilizerData = {
   }
 };
 
-function updateProducts() {
-  const nutrientInput = document.getElementById('nutrient').value;
-  const nutrient = nutrientInput === "P" ? "P2O5" : nutrientInput === "K" ? "K2O" : nutrientInput;
-  const productSelect = document.getElementById('product');
-  const nozzleGroup = document.getElementById('nozzleGroup');
-  productSelect.innerHTML = "";
+// On page load, wire up the nutrient selector and populate products
+document.addEventListener("DOMContentLoaded", () => {
+  const nutrientSelect = document.getElementById("nutrient");
+  nutrientSelect.addEventListener("change", updateProducts);
+  updateProducts();
+});
 
-  const defaultOption = document.createElement('option');
+function updateProducts() {
+  const nutrient = document.getElementById("nutrient").value;
+  const productSelect = document.getElementById("product");
+  const nozzleGroup   = document.getElementById("nozzleGroup");
+
+  // Reset dropdown
+  productSelect.innerHTML = "";
+  const defaultOption = document.createElement("option");
   defaultOption.textContent = "-- Select Product --";
-  defaultOption.disabled = true;
-  defaultOption.selected = true;
+  defaultOption.disabled    = true;
+  defaultOption.selected    = true;
   productSelect.appendChild(defaultOption);
 
-  const products = fertilizerData[nutrient];
-  if (!products) {
-    console.error("No products found for nutrient:", nutrient);
-    return;
-  }
-
-  Object.keys(products).forEach(product => {
-    const option = document.createElement('option');
-    option.value = product;
-    option.textContent = product;
+  // Populate new options
+  const products = fertilizerData[nutrient] || {};
+  Object.keys(products).forEach(name => {
+    const option = document.createElement("option");
+    option.value       = name;
+    option.textContent = name;
     productSelect.appendChild(option);
   });
 
+  // Show/hide nozzle input for UAN products
   productSelect.onchange = () => {
-    const selectedProduct = productSelect.value;
-    nozzleGroup.style.display = selectedProduct.includes("UAN") ? "block" : "none";
+    nozzleGroup.style.display = productSelect.value.includes("UAN")
+                                   ? "block"
+                                   : "none";
   };
-
   nozzleGroup.style.display = "none";
 }
 
 function calculate() {
-  let nutrientInput = document.getElementById('nutrient').value;
-  const product = document.getElementById('product').value;
-  let pureRate = parseFloat(document.getElementById('pureRate').value);
-  const acres = parseFloat(document.getElementById('acres').value);
-  const resultEl = document.getElementById('result');
+  const nutrient  = document.getElementById("nutrient").value;
+  const product   = document.getElementById("product").value;
+  const pureRate  = parseFloat(document.getElementById("pureRate").value);
+  const acres     = parseFloat(document.getElementById("acres").value);
+  const resultEl  = document.getElementById("result");
 
-  if (isNaN(pureRate) || isNaN(acres) || pureRate <= 0 || acres <= 0 || !product) {
-    resultEl.textContent = "Please enter valid numbers for rate and acres.";
+  if (!product || isNaN(pureRate) || pureRate <= 0 ||
+      isNaN(acres)   || acres   <= 0) {
+    resultEl.textContent = "Please enter valid numbers and select a product.";
     return;
   }
 
-  let convertedRate = pureRate;
-  let displayNutrient = nutrientInput;
-  let conversionNote = "";
+  const percent        = fertilizerData[nutrient][product];
+  const productPerAcre = pureRate / percent;
+  const totalProduct   = productPerAcre * acres;
 
-  if (nutrientInput === "P") {
-    convertedRate *= 2.29;
-    nutrientInput = "P2O5";
-    conversionNote = `(Converted to ${convertedRate.toFixed(2)} lbs of P₂O₅)`;
-  } else if (nutrientInput === "K") {
-    convertedRate *= 1.20;
-    nutrientInput = "K2O";
-    conversionNote = `(Converted to ${convertedRate.toFixed(2)} lbs of K₂O)`;
-  }
-
-  const percent = fertilizerData[nutrientInput][product];
-  const productPerAcre = convertedRate / percent;
-  const totalProduct = productPerAcre * acres;
-
-  let resultText = `To apply ${pureRate} lbs of elemental ${displayNutrient} per acre using ${product}, you need to apply:<br>`;
+  let resultText = `To apply ${pureRate.toFixed(2)} lbs of ${nutrient} per acre using ${product}, you need:<br>`;
 
   if (product.includes("UAN")) {
-    const gallonsPerAcre = productPerAcre / 11.06;
-    const totalGallons = totalProduct / 11.06;
-    resultText += `• ${gallonsPerAcre.toFixed(2)} gallons/acre<br>• ${totalGallons.toFixed(2)} gallons total for ${acres} acres.`;
+    const gpa    = productPerAcre / 11.06;
+    const totalG = totalProduct   / 11.06;
+    resultText +=
+      `• ${gpa.toFixed(2)} gallons/acre<br>` +
+      `• ${totalG.toFixed(2)} gallons total for ${acres} acres.`;
   } else {
-    resultText += `• ${productPerAcre.toFixed(2)} lbs/acre<br>• ${totalProduct.toFixed(2)} lbs total for ${acres} acres.`;
-  }
-
-  // Add conversion note at the bottom only for P and K
-  if (conversionNote) {
-    resultText += `<br><br>${conversionNote}`;
+    resultText +=
+      `• ${productPerAcre.toFixed(2)} lbs/acre<br>` +
+      `• ${totalProduct.toFixed(2)} lbs total for ${acres} acres.`;
   }
 
   resultEl.innerHTML = resultText;
 }
 
-
 function generateCatchTable() {
-  let nutrientInput = document.getElementById('nutrient').value;
-  const product = document.getElementById('product').value;
-  let pureRate = parseFloat(document.getElementById('pureRate').value);
-  const spreaderWidth = parseFloat(document.getElementById('spreaderWidth').value);
-  const nozzles = parseInt(document.getElementById('nozzles').value);
-  const table = document.getElementById('catchTable');
+  const nutrient      = document.getElementById("nutrient").value;
+  const product       = document.getElementById("product").value;
+  const pureRateInput = parseFloat(document.getElementById("pureRate").value);
+  const spreaderWidth = parseFloat(document.getElementById("spreaderWidth").value);
+  const nozzles       = parseInt(document.getElementById("nozzles").value, 10);
+  const table         = document.getElementById("catchTable");
 
-  if (nutrientInput === "P") {
-    pureRate *= 2.29;
-    nutrientInput = "P2O5";
-  } else if (nutrientInput === "K") {
-    pureRate *= 1.20;
-    nutrientInput = "K2O";
-  }
-
-  const percent = fertilizerData[nutrientInput][product];
-
-  if (
-    isNaN(spreaderWidth) || spreaderWidth <= 0 ||
-    isNaN(pureRate) || pureRate <= 0 ||
-    !product || !percent ||
-    (product.includes("UAN") && (isNaN(nozzles) || nozzles <= 0))
+  if (!product ||
+      isNaN(pureRateInput) || pureRateInput <= 0 ||
+      isNaN(spreaderWidth)  || spreaderWidth  <= 0 ||
+     (product.includes("UAN") && (isNaN(nozzles) || nozzles <= 0))
   ) {
     alert("Please enter valid inputs for spreader width, rate, and number of nozzles.");
     return;
   }
 
-  const lbsPerAcre = pureRate / percent;
+  const percent = fertilizerData[nutrient][product];
+  const lbsAcre = pureRateInput / percent;
 
+  // Build header
   if (product.includes("UAN")) {
     table.innerHTML = `
       <tr>
         <th>Speed (mph)</th>
-        <th>Catch (gallons)</th>
-        <th>Catch (milliliters)</th>
+        <th>Catch (gal)</th>
+        <th>Catch (ml)</th>
         <th>Per Nozzle (ml)</th>
       </tr>`;
   } else {
-    table.innerHTML = "<tr><th>Speed (mph)</th><th>Catch (lbs in 60 sec)</th></tr>";
+    table.innerHTML = `
+      <tr>
+        <th>Speed (mph)</th>
+        <th>Catch (lbs in 60 sec)</th>
+      </tr>`;
   }
 
+  // Build data rows
   for (let speed = 1.0; speed <= 10.0; speed += 0.5) {
-    const feetPerMinute = speed * 88;
-    const areaPerMinute = spreaderWidth * feetPerMinute;
-    const catchLbs = (lbsPerAcre * areaPerMinute) / 43560;
-
-    const row = document.createElement('tr');
+    const fpm      = speed * 88;
+    const areaMin  = spreaderWidth * fpm;
+    const catchLbs = (lbsAcre * areaMin) / 43560;
+    const row      = document.createElement("tr");
 
     if (product.includes("UAN")) {
-      const gallons = catchLbs / 11.06;
-      const milliliters = gallons * 3785.41;
-      const perNozzleMl = milliliters / nozzles;
-
+      const gal   = catchLbs / 11.06;
+      const ml    = gal * 3785.41;
+      const perNo = ml / nozzles;
       row.innerHTML = `
         <td>${speed}</td>
-        <td>${gallons.toFixed(2)}</td>
-        <td>${milliliters.toFixed(1)}</td>
-        <td>${perNozzleMl.toFixed(1)}</td>`;
+        <td>${gal.toFixed(2)}</td>
+        <td>${ml.toFixed(1)}</td>
+        <td>${perNo.toFixed(1)}</td>`;
     } else {
-      row.innerHTML = `<td>${speed}</td><td>${catchLbs.toFixed(2)}</td>`;
+      row.innerHTML = `
+        <td>${speed}</td>
+        <td>${catchLbs.toFixed(2)}</td>`;
     }
 
     table.appendChild(row);
   }
 }
-
-document.addEventListener("DOMContentLoaded", updateProducts);
